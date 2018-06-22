@@ -1,15 +1,24 @@
 import { Progress } from 'reactstrap'
 import React, { Component } from 'react';
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Grid, Row, Col, Popover, OverlayTrigger} from 'react-bootstrap';
 
-export default ({ name, variations }) => <Grid>
+import './TrackItem.css'
+
+export default ({ name, variations, colors = ["blue", "red", "green"] }) => <Grid>
     <Row>
         <Col md={1}>{ name }</Col>
         <Col md={11}>
             <Progress multi>
                 {
-                    variations.map(
-                        v => <Progress bar value={v.percent * 100}>{v.experiment}:{v.name}</Progress>
+                    Object.keys(variations).map(
+                        (e, i) => <Progress
+                            bar
+                            key={i}
+                            color={colors[i % colors.length]}
+                            value={variations[e].reduce((s, p) => s + parseFloat(p.percent), 0) * 100}
+                        >
+                            {e}
+                        </Progress>
                     )
                 }
             </Progress>

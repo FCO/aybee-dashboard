@@ -21,6 +21,18 @@ const allTracks = gql`
           platform: platformByPlatformId {
             name
           }
+          experiments: experimentsByTrackId {
+            nodes {
+              name
+              variants: variantsByExperimentId {
+                nodes {
+                  id
+                  name
+                  percent
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -42,33 +54,12 @@ export default class Tracks extends Component {
                                     data.allTracks.nodes.map(
                                         t => <LinkContainer key={t.id} to={`/track/${ t.id }`}>
                                             <ListGroupItem>
-                                                <TrackItem { ...t} variations={[
-                                                    {
-                                                        percent: .1,
-                                                        experiment: "Bla",
-                                                        name: "A"
-                                                    },
-                                                    {
-                                                        percent: .2,
-                                                        experiment: "Bla",
-                                                        name: "B"
-                                                    },
-                                                    {
-                                                        percent: .1,
-                                                        experiment: "Ble",
-                                                        name: "A"
-                                                    },
-                                                    {
-                                                        percent: .2,
-                                                        experiment: "Ble",
-                                                        name: "B"
-                                                    },
-                                                    {
-                                                        percent: .3,
-                                                        experiment: "Ble",
-                                                        name: "C"
-                                                    }
-                                                ]} />
+                                                <TrackItem { ...t} variations={
+                                                    (t.experiments.nodes || []).reduce((agg, exp) => ({
+                                                        ...agg,
+                                                        [exp.name]: exp.variants.nodes || []
+                                                    }), {})
+                                                } />
                                             </ListGroupItem>
                                         </LinkContainer>
                                     )
