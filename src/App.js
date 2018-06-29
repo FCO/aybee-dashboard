@@ -4,6 +4,8 @@ import './App.css';
 import Login from './Login';
 import Tracks from './Tracks';
 import Track from './Track';
+import Experiments from './Experiments';
+import Experiment from './Experiment';
 import {
     BrowserRouter as Router,
     Route,
@@ -83,6 +85,9 @@ class App extends Component {
                                 <LinkContainer to="/tracks">
                                     <NavItem>Tracks</NavItem>
                                 </LinkContainer>
+                                <LinkContainer to="/experiments">
+                                    <NavItem>Experiments</NavItem>
+                                </LinkContainer>
                             </Nav>
                             <Navbar.Collapse>
                                 <Nav pullRight>
@@ -111,6 +116,8 @@ class App extends Component {
                                 />} />
                                 <Route path="/tracks"       render={props => <Tracks {...props} alert={this.alert.bind(this)} />} />
                                 <Route path="/track/:id"    render={props => <Track  {...props} alert={this.alert.bind(this)} />} />
+                                <Route path="/experiments"       render={props => <Experiments {...props} alert={this.alert.bind(this)} />} />
+                                <Route path="/experiment/:id"    render={props => <Experiment  {...props} alert={this.alert.bind(this)} />} />
                                 <Redirect to="/login" />
                             </Switch>
                         </div>
